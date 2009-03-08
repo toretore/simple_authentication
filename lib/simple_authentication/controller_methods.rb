@@ -37,12 +37,14 @@ module SimpleAuthentication
 
       def require_login
         unless logged_in?
+          flash[:error] = I18n.t('simple_authentication.login_required')
           redirect_to new_login_url
         end
       end
 
       def require_logout
         unless logged_out?
+          flash[:error] = I18n.t('simple_authentication.logout_required')
           redirect_to login_url
         end
       end
@@ -70,10 +72,22 @@ module SimpleAuthentication
 
 
       def create
-        if params[:authenticator] && authenticator && user = authenticator.new(self).authenticate
-          unless user == :ok#Authenticator doesn't want any help
-            self.current_user = user
-            authentication_successful
+        if params[:authenticator]
+          if authenticator && user = authenticator.new(self).authenticate
+            unless user == :ok#Authenticator doesn't want any help
+              self.current_user = user
+              authentication_successful
+            end
+          elsif authenticator
+            #First, see if the authenticator has defined a message of its own
+            message = I18n.t(:login_failed, :default => "##not found##",#This is hacky
+              :scope => [:simple_authentication, :authenticators, authenticator.identifier])
+            #If not, use default
+            message = I18n.t('simple_authentication.login_failed') if message == "##not found##"
+
+            authentication_failed message
+          else
+            authentication_failed
           end
         else
           authentication_failed
@@ -96,12 +110,12 @@ module SimpleAuthentication
       end
 
 
-      def authentication_successful(message = 'Logged in')
+      def authentication_successful(message = I18n.t('simple_authentication.login_successful'))
         flash[:notice] = message
         redirect_to login_url
       end
 
-      def authentication_failed(message = 'Login failed')
+      def authentication_failed(message = I18n.t('simple_authentication.login_failed'))
         flash[:error] = message
         redirect_to params[:authenticator].blank? ?
           new_login_url :

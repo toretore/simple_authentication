@@ -1,0 +1,6 @@
+en:
+  simple_authentication:
+    login_required: You must be logged in to view this page
+    logout_required: You must be logged out to view this page
+    login_successful: "You're logged in"
+    login_failed: Login failed

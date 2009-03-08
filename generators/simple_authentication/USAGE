@@ -1,0 +1,5 @@
+Description:
+  Create user migration
+
+Example:
+    ./script/generate simple_authentication --migration User

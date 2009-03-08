@@ -1,0 +1,5 @@
+<ul class="authenticators">
+  <% for authenticator in @authenticators -%>
+    <li><%= link_to authenticator.identifier.humanize, new_login_with_authenticator_url(:authenticator => authenticator.identifier) %></li>
+  <% end -%>
+</ul>

@@ -1,0 +1,5 @@
+<p>
+  You're logged in as <strong><%= h(@user.display_name) %></strong>.
+</p>
+
+<%= button_to "Log out", login_url, :method => :delete %>

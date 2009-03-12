@@ -4,3 +4,4 @@ en:
     logout_required: You must be logged out to view this page
     login_successful: "You're logged in"
     login_failed: Login failed
+    login_title: Log in

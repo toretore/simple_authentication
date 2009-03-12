@@ -1,3 +1,5 @@
+<h2><%= t('simple_authentication.login_title') %></h2>
+
 <ul class="authenticators">
   <% for authenticator in @authenticators -%>
     <li><%= link_to t(:link, :scope => [:simple_authentication, :authenticators, authenticator.identifier]),

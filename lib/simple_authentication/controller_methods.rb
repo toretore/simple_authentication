@@ -61,6 +61,11 @@ module SimpleAuthentication
       end
 
 
+      #If there is only one authenticator installed or if one has been specified,
+      #this will render its login form.
+      #
+      #If there is more than one installed and none has been specified, it will
+      #list all authenticators as links to their login forms.
       def new
         if authenticator
           send(authenticator.identifier) if respond_to?(authenticator.identifier)
@@ -71,6 +76,15 @@ module SimpleAuthentication
       end
 
 
+      #Create a login - aka log in the user
+      #
+      #An authenticator must be specified for authentication to continue. The
+      #authenticator will receive the controller as its only parameter and either
+      #
+      # * respond with :ok, signalling that it takes care of everything
+      # * or, if the authentication was successful, return the User that
+      #   was authenticated. current_user will then be set to this user.
+      # * or, if the authentication failed, return nil or false
       def create
         if params[:authenticator]
           if authenticator && user = authenticator.new(self).authenticate
@@ -95,6 +109,7 @@ module SimpleAuthentication
       end
 
 
+      #Destroy the login - aka "log out"
       def destroy
         self.current_user = nil
         redirect_to new_login_url

@@ -1,13 +1,23 @@
 SimpleAuthentication
 ====================
 
-The base.
+SimpleAuthentication is a simple, extensible and flexible authentication engine
+for Rails 2.3+. It requires minimal configuration and initial setup, but is
+still flexible enough to support customisation.
+
+This is the base system which provides the framework for "authenticators" to
+use to do the actual authentication. Currently there are two authenticators:
+
+* Username/password: http://github.com/toretore/simple_password_authentication
+* OpenID: http://github.com/toretore/simple_openid_authentication
 
 
-Example
-=======
+Installation
+============
 
-Example goes here.
+Add the gem to your config/environment.rb file:
+
+config.gem "toretore-simple_authentication", :source => "http://gems.github.com"
 
 
 Copyright (c) 2009 Tore Darell, released under the MIT license

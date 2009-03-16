@@ -1,0 +1,90 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body  {
+  background: #fff;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 90%;
+}
+
+body {
+  width: 60em;
+  max-width: 100%;
+  margin: auto;
+  padding: 1em;
+}
+
+h1, h2, h3, h4 {
+  font-family: Georgia, "Times New Roman", serif;
+  margin: 2em 0 1em 0;
+}
+
+h1 {
+  margin-top: 0;
+  text-align: center;
+  font-size: 250%;
+}
+
+#introduction {
+  text-align: center;
+  font-style: italic;
+  margin: 2em 0 3em 0;
+}
+
+p {
+  margin: 1em 0;
+}
+
+  p.note {
+    background: #ff9;
+    border: 1px solid #cc3;
+    padding: 0.5em;
+  }
+
+  p.note em {
+    font-weight: bold;
+    position: relative;
+  }
+
+  p.note code {
+    background: #cc6;
+  }
+
+ul {
+  margin: 1em 0;
+  padding-left: 1em;
+}
+
+  ul li {
+    
+  }
+
+  ul ul {
+  margin: 0;
+  }
+
+  ul.install {
+  
+  }
+
+    ul.install li code {
+      display: block;
+    }
+
+code {
+  background: #eee;
+  padding: 0.1em 0.5em;
+}
+
+pre {
+  font-family: monospace;
+  margin: 2em 1em;
+}
+
+  pre code {
+    display: block;
+    padding: 1em;
+    overflow: auto;
+  }

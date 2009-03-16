@@ -1,80 +1,115 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-	<title>toretore/simple_authentication @ GitHub</title>
-	
-	<style type="text/css">
-		body {
-  		margin-top: 1.0em;
-  		background-color: #6628ee;
-		  font-family: "helvetica"; 
-  		color: #ffffff;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-		h1 { font-size: 3.8em; color: #99d711; margin-bottom: 3px; }
-		h1 .small { font-size: 0.4em; }
-		h1 a { text-decoration: none }
-		h2 { font-size: 1.5em; color: #99d711; }
-    h3 { text-align: center; color: #99d711; }
-    a { color: #99d711; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-		pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-	</style>
-	
+	<title>SimpleAuthentication</title>
+	<link type="text/css" href="style.css" rel="stylesheet" media="screen" />
 </head>
-
 <body>
-  <a href="http://github.com/toretore/simple_authentication"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+
+  <h1>SimpleAuthentication</h1>
+
+  <p id="introduction">
+    SimpleAuthentication is an authentication engine built for Rails 2.3+. Its goal is to
+    solve one problem - authentication - and to do it well. Its built with flexibility
+    and extensibility in mind while still being as easy as possible to set up and use.
+  </p>
+
+  <h2>Installing</h2>
+
+  <p>
+    If you're creating a new Rails application, you can use this template which will
+    get you up and running with SimpleAuthentication in no time:
+  </p>
+
+  <pre><code>rails &lt;name&gt; -m http://gist.github.com/79936.txt</code></pre>
+
+  <p>Or if you want to do things more manually, first add the gem to your <code>environment.rb</code>:</p>
+
+  <pre><code>config.gem "toretore-simple_authentication", :source =&gt; "http://gems.github.com/", :lib =&gt; "simple_authentication"</code></pre>
+
+  <p>Then, depending on whether you want to use username/password authentication, OpenID, or both:</p>
+
+  <pre><code>#To add username and password authentication:
+config.gem "toretore-simple_password_authentication", :source =&gt; "http://gems.github.com/", :lib =&gt; "simple_password_authentication"
+#To add OpenID authentication:
+config.gem "toretore-simple_password_authentication", :source =&gt; "http://gems.github.com/", :lib =&gt; "simple_openid_authentication"</code></pre>
+
+  <p>Install the gems:</p>
+
+  <pre><code>[sudo] rake gems:install</code></pre>
+
+  <p>
+    If you're using OpenID authentication, you also need the "open_id_authentication" plugin:
+  </p>
+
+  <pre><code>script/plugin install git://github.com/rails/open_id_authentication.git</code></pre>
+
+  <h3>Migrations - setting up the database</h3>
+
+  <p>
+    By now everything is ready for use. There are a few things you should check
+    before using it though. SimpleAuthentication assumes you have a "users" table
+    to authenticate against. If you don't have this, you can generate a migration:
+  </p>
+
+  <pre><code>script/generate simple_authentication --migration User</code></pre>
+
+  <p>And if you're using username/password authentication, this migration will add the necessary fields:</p>
+
+  <pre><code>script/generate simple_password_authentication --migration User</code></pre>
+
+  <p>If you're using OpenID, you need an <code>openid_identifier</code> field:</p>
+
+  <pre><code>script/generate simple_openid_authentication --migration User</code></pre>
+
+  <p>And the <code>open_id_authentication</code> plugin needs a couple of tables to do its thing:</p>
+
+  <pre><code>script/generate open_id_authentication_tables CreateOpenidTables</code></pre>
+
+  <p>Then run the migrations:</p>
+
+  <pre><code>rake db:migrate</code></pre>
+
+
+  <h2>Using</h2>
+
+  <p>
+    If you now start your server and go to <a href="http://localhost:3000/login/new">http://localhost:3000/login/new</a>,
+    you should see one of two things: If you installed both password and OpenID authentication, you will have to
+    choose which one to login with. When you click one of those links, or if you only installed one authentication
+    method, you will see the login form. For OpenID, you can just enter your identifier to log in - the User object
+    will be created automatically.
+  </p>
   
-  <div id="container">
+  <p>
+    For username and password authentication you will have to add the user to
+    the database before you can log in. SimpleAuthentication does not include
+    a user registration module. The reasoning behind this is that it doesn't
+    strictly belong to the problem being solved (authentication), and it's
+    very likely that registration procedures vary a lot between applications. Thus,
+    a registration module would probably just be getting in your way and not
+    be much more than a scaffold:
+  </p>
 
-    <div class="download">
-      <a href="http://github.com/toretore/simple_authentication/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/toretore/simple_authentication/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
-    </div>
-      
-    <h1><a href="http://github.com/toretore/simple_authentication">SimpleAuthentication</a> 
-      <span class="small">by <a href="http://github.com/toretore">toretore</a></small></h1>
+  <pre><code>script/generate scaffold User --skip-migration</code></pre>
 
-    <div class="description">
-      Authentication engine for Rails 2.3
-    </div>
+  <p class="note">
+    <em>Note:</em>
+    Doing this will create a model file in <code>app/models/user.rb</code>, which
+    will override the one built into the SimpleAuthentication engine. This is fine,
+    but except you want to override some defaults or add something, just remove it
+    for now.
+  </p>
 
-    <h2>Authors</h2>
-<p>Tore Darell (toredarell@gmail.com)<br/><br/>      </p>
-<h2>Contact</h2>
-<p>Tore Darell (toredarell@gmail.com)<br/>      </p>
+  <p>
+    What it does include, though, is a User model which is ready to be used by
+    such a registration module. The User model will hash passwords using a salt
+    and use these when authenticating. To add a user, simply:
+  </p>
 
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/toretore/simple_authentication/zipball/master">zip</a> or
-      <a href="http://github.com/toretore/simple_authentication/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/toretore/simple_authentication</pre>
-    </p>
-      
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/toretore/simple_authentication">toretore/simple_authentication</a>
-    </div>
-    
-  </div>
-
+  <pre><code>User.create(:name =&gt; "Ahura Mazda", :username =&gt; "mazda", :password =&gt; "a brimful of asha")</code></pre>
   
 </body>
 </html>

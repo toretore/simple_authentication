@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name     = "simple_authentication"
-  s.version  = "0.1.0"
+  s.version  = "0.1.1"
   s.date     = "2009-03-09"
   s.summary  = "Authentication, simple"
   s.email    = "toredarell@gmail.com"

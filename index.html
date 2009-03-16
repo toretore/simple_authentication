@@ -12,20 +12,30 @@
 
   <p id="introduction">
     SimpleAuthentication is an authentication engine built for Rails 2.3+. Its goal is to
-    solve one problem - authentication - and to do it well. Its built with flexibility
+    solve one problem - authentication - and to do it well. It's built with flexibility
     and extensibility in mind while still being as easy as possible to set up and use.
   </p>
 
   <h2>Installing</h2>
 
+  <h3>Using a template</h3>
+
   <p>
-    If you're creating a new Rails application, you can use this template which will
+    If you're creating a new Rails application, you can use
+    <a href="http://gist.github.com/79936">this template</a> which will
     get you up and running with SimpleAuthentication in no time:
   </p>
 
   <pre><code>rails &lt;name&gt; -m http://gist.github.com/79936.txt</code></pre>
 
-  <p>Or if you want to do things more manually, first add the gem to your <code>environment.rb</code>:</p>
+  <p>
+    Just answer a few yes/no questions and it will set up the application for you,
+    then you can skip straight to <a href="#usage">Usage</a>.
+  </p>
+
+  <h3>Installing gem-by-gem</h3>
+
+  <p>Or if you want to do things more manually to see what's going on, first add the gem to your <code>environment.rb</code>:</p>
 
   <pre><code>config.gem "toretore-simple_authentication", :source =&gt; "http://gems.github.com/", :lib =&gt; "simple_authentication"</code></pre>
 
@@ -34,7 +44,7 @@
   <pre><code>#To add username and password authentication:
 config.gem "toretore-simple_password_authentication", :source =&gt; "http://gems.github.com/", :lib =&gt; "simple_password_authentication"
 #To add OpenID authentication:
-config.gem "toretore-simple_password_authentication", :source =&gt; "http://gems.github.com/", :lib =&gt; "simple_openid_authentication"</code></pre>
+config.gem "toretore-simple_openid_authentication", :source =&gt; "http://gems.github.com/", :lib =&gt; "simple_openid_authentication"</code></pre>
 
   <p>Install the gems:</p>
 
@@ -45,6 +55,13 @@ config.gem "toretore-simple_password_authentication", :source =&gt; "http://gems
   </p>
 
   <pre><code>script/plugin install git://github.com/rails/open_id_authentication.git</code></pre>
+
+  <p>
+    This plugin also assumes you have a <code>root_url</code>, so let's just add one pointing
+    to the "currently logged in as" page for now:
+  </p>
+
+  <pre><code>map.root :controller =&gt; "logins", :action =&gt; "show"</code></pre>
 
   <h3>Migrations - setting up the database</h3>
 
@@ -73,7 +90,7 @@ config.gem "toretore-simple_password_authentication", :source =&gt; "http://gems
   <pre><code>rake db:migrate</code></pre>
 
 
-  <h2>Using</h2>
+  <h2 id="usage">Using</h2>
 
   <p>
     If you now start your server and go to <a href="http://localhost:3000/login/new">http://localhost:3000/login/new</a>,
@@ -110,6 +127,12 @@ config.gem "toretore-simple_password_authentication", :source =&gt; "http://gems
   </p>
 
   <pre><code>User.create(:name =&gt; "Ahura Mazda", :username =&gt; "mazda", :password =&gt; "a brimful of asha")</code></pre>
+
+  <h2>The end</h2>
+
+  <p>
+    For further documentation, see <a href="http://wiki.github.com/toretore/simple_authentication">the Wiki</a>.
+  </p>
   
 </body>
 </html>

@@ -39,8 +39,10 @@ p {
 
   p.note {
     background: #ff9;
-    border: 1px solid #cc3;
+    border: 1px solid #dd9;
     padding: 0.5em;
+    -moz-border-radius: 0.5em;
+    -webkit-border-radius: 0.5em;
   }
 
   p.note em {
@@ -87,4 +89,6 @@ pre {
     display: block;
     padding: 1em;
     overflow: auto;
+    -moz-border-radius: 0.5em;
+    -webkit-border-radius: 0.5em;
   }

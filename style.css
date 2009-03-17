@@ -38,6 +38,7 @@ p {
 }
 
   p.note {
+    margin: 1em 2em;
     background: #ff9;
     border: 1px solid #dd9;
     padding: 0.5em;

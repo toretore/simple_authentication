@@ -128,6 +128,22 @@ config.gem "toretore-simple_openid_authentication", :source =&gt; "http://gems.g
 
   <pre><code>User.create(:name =&gt; "Ahura Mazda", :username =&gt; "mazda", :password =&gt; "a brimful of asha")</code></pre>
 
+  <p>
+    Logging in using SimpleAuthentication does one thing: it sets the <code>current_user</code>
+    to the user that was authenticated. This method is available in all controllers and views,
+    along with a few convenience methods like <code>logged_in?</code> and <code>logged_out?</code>.
+  </p>
+
+  <p>
+    Additionally, two methods are defined that can be used as before filters in your controllers
+    to define which controllers require a <code>current_user</code> to function:
+  </p>
+
+  <pre><code>class ArticlesController &lt; ApplicationController
+  before_filter :require_login, :except =&gt; [:show]
+  before_filter :require_logout, :only =&gt; [:show]
+end</code></pre>
+
   <h2>The end</h2>
 
   <p>

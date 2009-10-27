@@ -96,11 +96,30 @@ class LoginsControllerTest < ActionController::TestCase
     assert_equal "humbaba", @response.body
   end
 
+  def test_create_should_redirect_to_authentication_successful_url_when_login_successful
+    def @controller.authentication_successful_url; "success"; end
+    post :create, {:authenticator => "mock"}
+    assert_redirected_to "success"
+  end
+
+  def test_create_should_redirect_to_authentication_failed_url_when_login_failed
+    def @controller.authentication_failed_url; "fail"; end
+    post :create
+    assert_redirected_to "fail"
+  end
+
   def test_destroy_should_unset_current_user
     post :create, {:authenticator => "mock"}
     assert @controller.logged_in?
     delete :destroy
     assert @controller.logged_out?
+  end
+
+  def test_destroy_should_redirect_to_login_destroyed_url
+    def @controller.login_destroyed_url; "destroyed"; end
+    post :create, {:authenticator => "mock"}
+    delete :destroy
+    assert_redirected_to "destroyed"
   end
 
 

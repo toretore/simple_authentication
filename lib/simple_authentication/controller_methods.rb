@@ -112,7 +112,7 @@ module SimpleAuthentication
       #Destroy the login - aka "log out"
       def destroy
         self.current_user = nil
-        redirect_to new_login_url
+        redirect_to login_destroyed_url
       end
 
 
@@ -127,13 +127,25 @@ module SimpleAuthentication
 
       def authentication_successful(message = I18n.t('simple_authentication.login_successful'))
         flash[:notice] = message
-        redirect_to login_url
+        redirect_to authentication_successful_url
       end
 
       def authentication_failed(message = I18n.t('simple_authentication.login_failed'))
         flash[:error] = message
-        redirect_to params[:authenticator].blank? ?
-          new_login_url :
+        redirect_to authentication_failed_url
+      end
+
+
+      def login_destroyed_url
+        new_login_url
+      end
+
+      def authentication_successful_url
+        login_url
+      end
+
+      def authentication_failed_url
+        params[:authenticator].blank? ? new_login_url :
           new_login_with_authenticator_url(:authenticator => authenticator.identifier)
       end
 

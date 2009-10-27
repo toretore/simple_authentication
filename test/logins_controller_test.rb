@@ -122,5 +122,14 @@ class LoginsControllerTest < ActionController::TestCase
     assert_redirected_to "destroyed"
   end
 
+  def test_login_destroyed_url_should_receive_previously_logged_in_user_as_parameter_if_arity_allows
+    user = nil
+    (class << @controller;self;end).send(:define_method, :login_destroyed_url){|u| user = u; "hej" }
+    post :create, {:authenticator => "mock"}
+    delete :destroy
+    assert_redirected_to "hej"
+    assert_not_nil user
+  end
+
 
 end

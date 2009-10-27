@@ -111,8 +111,13 @@ module SimpleAuthentication
 
       #Destroy the login - aka "log out"
       def destroy
+        user = current_user
         self.current_user = nil
-        redirect_to login_destroyed_url
+        redirect_to(
+          method(:login_destroyed_url).arity.zero? ?
+            login_destroyed_url :
+            login_destroyed_url(user)
+        )
       end
 
 
